@@ -78,7 +78,6 @@ void loop() {
         digitalWrite(mhPin3, LOW);    // turn the LED off by making the voltage LOW
         delay(2000);
 
-        outputState += 1;
         digitalWrite(mhPin2, HIGH);   // turn the LED on (HIGH is the voltage level)
         digitalWrite(mhPin1, LOW);    // turn the LED off by making the voltage LOW
         digitalWrite(mhPin3, LOW);    // turn the LED off by making the voltage LOW
@@ -86,7 +85,6 @@ void loop() {
         delay(2000);
 
 
-        outputState = 0;
         digitalWrite(mhPin3, HIGH);   // turn the LED on (HIGH is the voltage level)
         digitalWrite(mhPin1, LOW);    // turn the LED off by making the voltage LOW
         digitalWrite(mhPin2, LOW);    // turn the LED off by making the voltage LOW
