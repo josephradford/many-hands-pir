@@ -68,33 +68,33 @@ void loop() {
       Serial.print("motion detected at ");
       Serial.print(millis()/1000);
       Serial.println(" sec"); 
+
+      // generate a random pattern for turning on relays in sequence, and flash?
       
-      
-      if (outputState == 0) {    
+ 
         Serial.println("turn on first relay"); 
         digitalWrite(mhPin1, HIGH);   // turn the LED on (HIGH is the voltage level)
         digitalWrite(mhPin2, LOW);    // turn the LED off by making the voltage LOW
         digitalWrite(mhPin3, LOW);    // turn the LED off by making the voltage LOW
-        outputState += 1;
-      }
-      else if (outputState == 1) {
+        delay(2000);
+
         outputState += 1;
         digitalWrite(mhPin2, HIGH);   // turn the LED on (HIGH is the voltage level)
         digitalWrite(mhPin1, LOW);    // turn the LED off by making the voltage LOW
         digitalWrite(mhPin3, LOW);    // turn the LED off by making the voltage LOW
         Serial.println("turn on second relay"); 
-      }
-      else {
+        delay(2000);
+
+
         outputState = 0;
         digitalWrite(mhPin3, HIGH);   // turn the LED on (HIGH is the voltage level)
         digitalWrite(mhPin1, LOW);    // turn the LED off by making the voltage LOW
         digitalWrite(mhPin2, LOW);    // turn the LED off by making the voltage LOW
         Serial.println("turn on third relay"); 
-      }
+        delay(2000);
+
       
-      
-      delay(50);
-    }         
+    }
     takeLowTime = true;
   }
   
