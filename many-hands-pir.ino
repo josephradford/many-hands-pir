@@ -96,7 +96,47 @@ void setup() {
   
 }
 
+void runRoutine(int routine_idx) {
 
+
+  for(int i = 0; i < 3; i++) {
+    for(int j = 0; j < flashRoutines[routine_idx].flashRoutine[i].repeat; j++) {
+
+      if (i == 0) {
+        Serial.print(millis()/1000);
+        Serial.println("turn on first relay"); 
+        digitalWrite(mhPin1, HIGH);   // turn the LED on (HIGH is the voltage level)
+        digitalWrite(mhPin2, LOW);    // turn the LED off by making the voltage LOW
+        digitalWrite(mhPin3, LOW);    // turn the LED off by making the voltage LOW
+      }
+      else if (i == 1) {
+        Serial.print(millis()/1000);
+        Serial.println("turn on second relay"); 
+        digitalWrite(mhPin2, HIGH);   // turn the LED on (HIGH is the voltage level)
+        digitalWrite(mhPin1, LOW);    // turn the LED off by making the voltage LOW
+        digitalWrite(mhPin3, LOW);    // turn the LED off by making the voltage LOW
+      }
+      else if (i == 2) {
+        Serial.print(millis()/1000);
+        Serial.println("turn on third relay"); 
+        digitalWrite(mhPin3, HIGH);   // turn the LED on (HIGH is the voltage level)
+        digitalWrite(mhPin1, LOW);    // turn the LED off by making the voltage LOW
+        digitalWrite(mhPin2, LOW);    // turn the LED off by making the voltage LOW 
+      }
+
+      // hold the light on
+      delay(flashRoutines[routine_idx].flashRoutine[i].hold[j]);
+
+      // turn everything off          
+      digitalWrite(mhPin1, LOW);    // turn the LED off by making the voltage LOW
+      digitalWrite(mhPin2, LOW);    // turn the LED off by making the voltage LOW
+      digitalWrite(mhPin3, LOW);    // turn the LED off by making the voltage LOW
+
+      delay(flashRoutines[routine_idx].flashRoutine[i].pauses[j]);
+
+    }
+  }
+}
 
 void loop() {
   // put your main code here, to run repeatedly:
@@ -111,12 +151,13 @@ void loop() {
       Serial.print(millis()/1000);
       Serial.println(" sec"); 
 
+      
       // seed radnom number generator
       randomSeed(analogRead(0));
-
+    
       // select one of the constructed routines
       int routine_idx = random(0,NUM_ROUTINES-1);
-
+    
       // when testing
       routine_idx = curRoutineIdx;
       curRoutineIdx++;
@@ -124,44 +165,7 @@ void loop() {
         curRoutineIdx = 0;
       }
 
-      for(int i = 0; i < 3; i++) {
-        for(int j = 0; j < flashRoutines[routine_idx].flashRoutine[i].repeat; j++) {
-
-          if (i == 0) {
-            Serial.print(millis()/1000);
-            Serial.println("turn on first relay"); 
-            digitalWrite(mhPin1, HIGH);   // turn the LED on (HIGH is the voltage level)
-            digitalWrite(mhPin2, LOW);    // turn the LED off by making the voltage LOW
-            digitalWrite(mhPin3, LOW);    // turn the LED off by making the voltage LOW
-          }
-          else if (i == 1) {
-            Serial.print(millis()/1000);
-            Serial.println("turn on second relay"); 
-            digitalWrite(mhPin2, HIGH);   // turn the LED on (HIGH is the voltage level)
-            digitalWrite(mhPin1, LOW);    // turn the LED off by making the voltage LOW
-            digitalWrite(mhPin3, LOW);    // turn the LED off by making the voltage LOW
-          }
-          else if (i == 2) {
-            Serial.print(millis()/1000);
-            Serial.println("turn on third relay"); 
-            digitalWrite(mhPin3, HIGH);   // turn the LED on (HIGH is the voltage level)
-            digitalWrite(mhPin1, LOW);    // turn the LED off by making the voltage LOW
-            digitalWrite(mhPin2, LOW);    // turn the LED off by making the voltage LOW 
-          }
-
-          // hold the light on
-          delay(flashRoutines[routine_idx].flashRoutine[i].hold[j]);
-
-          // turn everything off          
-          digitalWrite(mhPin1, LOW);    // turn the LED off by making the voltage LOW
-          digitalWrite(mhPin2, LOW);    // turn the LED off by making the voltage LOW
-          digitalWrite(mhPin3, LOW);    // turn the LED off by making the voltage LOW
-
-          delay(flashRoutines[routine_idx].flashRoutine[i].pauses[j]);
-
-        }
-      }
-
+      runRoutine(routine_idx);
 
       
     }
