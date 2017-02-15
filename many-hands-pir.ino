@@ -37,6 +37,7 @@ struct flashRoutines_type{
 flashRoutines_type flashRoutines[NUM_ROUTINES];
 
 
+int curRoutineIdx; // for testing only
 void setup() {
   // put your setup code here, to run once:
   pinMode(mhPin1, OUTPUT);
@@ -86,12 +87,12 @@ void setup() {
   // 0 is default
 
   // 1 is double flash
+  
   //relayRoutines[i].pauses[2] = 100;
   //relayRoutines[i].hold[2] = 400;
   //relayRoutines[i].hold[3] = 400;
   
 }
-
 
 
 
@@ -113,6 +114,13 @@ void loop() {
 
       // select one of the constructed routines
       int routine_idx = random(0,NUM_ROUTINES-1);
+
+      // when testing
+      routine_idx = curRoutineIdx;
+      curRoutineIdx++;
+      if (curRoutineIdx >= NUM_ROUTINES) {
+        curRoutineIdx = 0;
+      }
 
       for(int i = 0; i < 3; i++) {
         for(int j = 0; j < flashRoutines[routine_idx].flashRoutine[i].repeat; j++) {
