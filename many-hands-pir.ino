@@ -69,27 +69,67 @@ void loop() {
       Serial.print(millis()/1000);
       Serial.println(" sec"); 
 
+      // seed radnom number generator
+      randomSeed(analogRead(0));
+
       // generate a random pattern for turning on relays in sequence, and flash?
-      
- 
-        Serial.println("turn on first relay"); 
-        digitalWrite(mhPin1, HIGH);   // turn the LED on (HIGH is the voltage level)
-        digitalWrite(mhPin2, LOW);    // turn the LED off by making the voltage LOW
-        digitalWrite(mhPin3, LOW);    // turn the LED off by making the voltage LOW
-        delay(2000);
+      int pauses[20]; // generate maximum number of pauses possible
 
-        digitalWrite(mhPin2, HIGH);   // turn the LED on (HIGH is the voltage level)
-        digitalWrite(mhPin1, LOW);    // turn the LED off by making the voltage LOW
-        digitalWrite(mhPin3, LOW);    // turn the LED off by making the voltage LOW
-        Serial.println("turn on second relay"); 
-        delay(2000);
+      int hold[20]; // how long to hold each one
+      int repeat[3]; // how many times to repeat each one
+      // repeat is only successful when 7, 4 returned
+      repeat[0] = (int)(random(6,7) / random(4,6)); 
+      repeat[1] = (int)(random(6,7) / random(4,6)); 
+      repeat[2] = (int)(random(6,7) / random(3,6)); // bit more likely
 
+      int divider = (int)(random(6,7) / random(3,6));
 
-        digitalWrite(mhPin3, HIGH);   // turn the LED on (HIGH is the voltage level)
-        digitalWrite(mhPin1, LOW);    // turn the LED off by making the voltage LOW
-        digitalWrite(mhPin2, LOW);    // turn the LED off by making the voltage LOW
-        Serial.println("turn on third relay"); 
-        delay(2000);
+      for(int i = 0; i < 20; i++) {
+        pauses[i] = random(0, 200) / divider;
+        hold[i] = random(800, 3000) / divider;
+      }
+
+      int ctr = 0;
+      for(int i = 0; i < 3; i++) {
+        for(int j = 0; j < repeat[i]; j++) {
+
+          if (i == 0) {
+            Serial.print(millis()/1000);
+            Serial.println("turn on first relay"); 
+            digitalWrite(mhPin1, HIGH);   // turn the LED on (HIGH is the voltage level)
+            digitalWrite(mhPin2, LOW);    // turn the LED off by making the voltage LOW
+            digitalWrite(mhPin3, LOW);    // turn the LED off by making the voltage LOW
+          }
+          else if (i == 1) {
+            Serial.print(millis()/1000);
+            Serial.println("turn on second relay"); 
+            digitalWrite(mhPin2, HIGH);   // turn the LED on (HIGH is the voltage level)
+            digitalWrite(mhPin1, LOW);    // turn the LED off by making the voltage LOW
+            digitalWrite(mhPin3, LOW);    // turn the LED off by making the voltage LOW
+          }
+          else if (i == 2) {
+            Serial.print(millis()/1000);
+            Serial.println("turn on third relay"); 
+            digitalWrite(mhPin3, HIGH);   // turn the LED on (HIGH is the voltage level)
+            digitalWrite(mhPin1, LOW);    // turn the LED off by making the voltage LOW
+            digitalWrite(mhPin2, LOW);    // turn the LED off by making the voltage LOW 
+          }
+
+          // hold the light on
+          delay(hold[ctr]);
+
+          // turn everything off          
+          digitalWrite(mhPin1, LOW);    // turn the LED off by making the voltage LOW
+          digitalWrite(mhPin2, LOW);    // turn the LED off by making the voltage LOW
+          digitalWrite(mhPin3, LOW);    // turn the LED off by making the voltage LOW
+
+          delay(pauses[ctr]);
+
+          ctr++;
+          
+        }
+      }
+
 
       
     }
