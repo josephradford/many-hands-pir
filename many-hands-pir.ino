@@ -73,7 +73,18 @@ void setup() {
       relayRoutines[i].hold[j] = 1000;
     }
   }
+
+  // set up the varying routines we will perform
+
+  // 0 is default
+
+  // 1 is double flash
+  relayRoutines[i].pauses[2] = 100;
+  relayRoutines[i].hold[2] = 400;
+  relayRoutines[i].hold[3] = 400;
+  
 }
+
 
 
 
