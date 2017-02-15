@@ -29,8 +29,8 @@ struct flashRoutines_type{
   flashRoutine_type flashRoutine[3]; // for each relay
 };
 
-
-  
+#define TEST_ROUTINES 1
+#define START_ROUTINE_IDX 1
 
 #define NUM_ROUTINES 10
 flashRoutines_type flashRoutines[NUM_ROUTINES];
@@ -53,21 +53,7 @@ void setup() {
   pinMode(ledPin, OUTPUT);
   digitalWrite(pirPin, LOW);
 
-  //give the sensor some time to calibrate
-  Serial.print("calibrating sensor ");
-    for(int i = 0; i < calibrationTime; i++){
-      Serial.print(".");
-      delay(1000);
-      }
-    Serial.println(" done");
-    Serial.println("SENSOR ACTIVE");
-    delay(50);
 
-    // turn on first one
-    
-  digitalWrite(mhPin1, HIGH);   // turn the LED on (HIGH is the voltage level)
-  digitalWrite(mhPin2, LOW);    // turn the LED off by making the voltage LOW
-  digitalWrite(mhPin3, LOW);    // turn the LED off by making the voltage LOW
 
   // set up the defaults for anything that gets forgotten or doesn't need to be changed
   for(int i = 0; i < NUM_ROUTINES; i++) {
@@ -90,8 +76,43 @@ void setup() {
   flashRoutines[1].flashRoutine[2].hold[0] = 400;
   flashRoutines[1].flashRoutine[2].hold[1] = 400;
 
+  // 2
+  flashRoutines[2].flashRoutine[0].repeat    = 2;
+  flashRoutines[2].flashRoutine[0].hold[0]   = 800;
+  flashRoutines[2].flashRoutine[0].pauses[0] = 800;
+  flashRoutines[2].flashRoutine[0].hold[1]   = 800;
+  flashRoutines[2].flashRoutine[0].pauses[1] = 800;
+  flashRoutines[2].flashRoutine[1].repeat    = 1;
+  flashRoutines[2].flashRoutine[1].hold[0]   = 500;
+  flashRoutines[2].flashRoutine[1].pauses[0] = 2000;
+  flashRoutines[2].flashRoutine[2].repeat    = 4;
+  flashRoutines[2].flashRoutine[2].hold[0]   = 200;
+  flashRoutines[2].flashRoutine[2].pauses[0] = 800;
+  flashRoutines[2].flashRoutine[2].hold[1]   = 200;
+  flashRoutines[2].flashRoutine[2].pauses[1] = 2000;
+  flashRoutines[2].flashRoutine[2].hold[2]   = 200;
+  flashRoutines[2].flashRoutine[2].pauses[2] = 200;
+  flashRoutines[2].flashRoutine[2].hold[3]   = 200;
+  flashRoutines[2].flashRoutine[2].pauses[3] = 200;
+
+  curRoutineIdx = START_ROUTINE_IDX;
+
+  if (TEST_ROUTINES == 1) {
+    runRoutine(curRoutineIdx++);
+    delay(2000);
+    runRoutine(curRoutineIdx++);
+  }
 
   
+  //give the sensor some time to calibrate
+  Serial.print("calibrating sensor ");
+  for(int i = 0; i < calibrationTime; i++){
+    Serial.print(".");
+    delay(1000);
+  }
+  Serial.println(" done");
+  Serial.println("SENSOR ACTIVE");
+  delay(50);
 }
 
 void runRoutine(int routine_idx) {
