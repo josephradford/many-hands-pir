@@ -87,10 +87,12 @@ void setup() {
   // 0 is default
 
   // 1 is double flash
-  
-  //relayRoutines[i].pauses[2] = 100;
-  //relayRoutines[i].hold[2] = 400;
-  //relayRoutines[i].hold[3] = 400;
+  flashRoutines[1].flashRoutine[2].repeat = 2;
+  flashRoutines[1].flashRoutine[2].pauses[0] = 100;
+  flashRoutines[1].flashRoutine[2].hold[0] = 400;
+  flashRoutines[1].flashRoutine[2].hold[1] = 400;
+
+
   
 }
 
