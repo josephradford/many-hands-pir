@@ -20,6 +20,16 @@ int mhPin3 = 6;
 
   int outputState = 0;
 
+  
+struct relayRoutine{
+  int pauses[20]; // generate maximum number of pauses possible
+  int hold[20]; // how long to hold each one
+  int repeat[3]; // how many times to repeat each one
+};
+
+#define NUM_ROUTINES 10
+relayRoutine relayRoutines[NUM_ROUTINES];
+
 void setup() {
   // put your setup code here, to run once:
   pinMode(mhPin1, OUTPUT);
@@ -52,6 +62,17 @@ void setup() {
   digitalWrite(mhPin2, LOW);    // turn the LED off by making the voltage LOW
   digitalWrite(mhPin3, LOW);    // turn the LED off by making the voltage LOW
   outputState = 1;
+
+  // set up the defaults for anything that gets forgotten or doesn't need to be changed
+  for(int i = 0; i < NUM_ROUTINES; i++) {
+    for (int j = 0; j < 3; j++) {
+      relayRoutines[i].repeat[j] = 1;
+    }
+    for (int j = 0; j < 20; j++) {      
+      relayRoutines[i].pauses[j] = 0;
+      relayRoutines[i].hold[j] = 1000;
+    }
+  }
 }
 
 
@@ -72,26 +93,12 @@ void loop() {
       // seed radnom number generator
       randomSeed(analogRead(0));
 
-      // generate a random pattern for turning on relays in sequence, and flash?
-      int pauses[20]; // generate maximum number of pauses possible
-
-      int hold[20]; // how long to hold each one
-      int repeat[3]; // how many times to repeat each one
-      // repeat is only successful when 7, 4 returned
-      repeat[0] = (int)(random(6,7) / random(4,6)); 
-      repeat[1] = (int)(random(6,7) / random(4,6)); 
-      repeat[2] = (int)(random(6,7) / random(3,6)); // bit more likely
-
-      int divider = (int)(random(6,7) / random(3,6));
-
-      for(int i = 0; i < 20; i++) {
-        pauses[i] = random(0, 200) / divider;
-        hold[i] = random(800, 3000) / divider;
-      }
+      // select one of the constructed routines
+      int routine_idx = random(0,NUM_ROUTINES-1);
 
       int ctr = 0;
       for(int i = 0; i < 3; i++) {
-        for(int j = 0; j < repeat[i]; j++) {
+        for(int j = 0; j < relayRoutines[routine_idx].repeat[i]; j++) {
 
           if (i == 0) {
             Serial.print(millis()/1000);
@@ -116,14 +123,14 @@ void loop() {
           }
 
           // hold the light on
-          delay(hold[ctr]);
+          delay(relayRoutines[routine_idx].hold[ctr]);
 
           // turn everything off          
           digitalWrite(mhPin1, LOW);    // turn the LED off by making the voltage LOW
           digitalWrite(mhPin2, LOW);    // turn the LED off by making the voltage LOW
           digitalWrite(mhPin3, LOW);    // turn the LED off by making the voltage LOW
 
-          delay(pauses[ctr]);
+          delay(relayRoutines[routine_idx].pauses[ctr]);
 
           ctr++;
           
