@@ -20,15 +20,22 @@ int mhPin3 = 6;
 
   int outputState = 0;
 
-  
-struct relayRoutine{
-  int pauses[20]; // generate maximum number of pauses possible
-  int hold[20]; // how long to hold each one
-  int repeat[3]; // how many times to repeat each one
+struct flashRoutine_type{
+  int repeat;     // max is 5
+  int pauses[5];  // time after activating
+  int hold[5];    // time while activated
 };
 
+struct flashRoutines_type{
+  flashRoutine_type flashRoutine[3]; // for each relay
+};
+
+
+  
+
 #define NUM_ROUTINES 10
-relayRoutine relayRoutines[NUM_ROUTINES];
+flashRoutines_type flashRoutines[NUM_ROUTINES];
+
 
 void setup() {
   // put your setup code here, to run once:
@@ -66,11 +73,11 @@ void setup() {
   // set up the defaults for anything that gets forgotten or doesn't need to be changed
   for(int i = 0; i < NUM_ROUTINES; i++) {
     for (int j = 0; j < 3; j++) {
-      relayRoutines[i].repeat[j] = 1;
-    }
-    for (int j = 0; j < 20; j++) {      
-      relayRoutines[i].pauses[j] = 0;
-      relayRoutines[i].hold[j] = 1000;
+      flashRoutines[i].flashRoutine[j].repeat = 1;
+      for (int k = 0; k < 5; k++) {
+        flashRoutines[i].flashRoutine[j].pauses[k] = 0;
+        flashRoutines[i].flashRoutine[j].hold[k] = 1000;
+      }
     }
   }
 
@@ -79,9 +86,9 @@ void setup() {
   // 0 is default
 
   // 1 is double flash
-  relayRoutines[i].pauses[2] = 100;
-  relayRoutines[i].hold[2] = 400;
-  relayRoutines[i].hold[3] = 400;
+  //relayRoutines[i].pauses[2] = 100;
+  //relayRoutines[i].hold[2] = 400;
+  //relayRoutines[i].hold[3] = 400;
   
 }
 
@@ -107,9 +114,8 @@ void loop() {
       // select one of the constructed routines
       int routine_idx = random(0,NUM_ROUTINES-1);
 
-      int ctr = 0;
       for(int i = 0; i < 3; i++) {
-        for(int j = 0; j < relayRoutines[routine_idx].repeat[i]; j++) {
+        for(int j = 0; j < flashRoutines[routine_idx].flashRoutine[i].repeat; j++) {
 
           if (i == 0) {
             Serial.print(millis()/1000);
@@ -134,17 +140,15 @@ void loop() {
           }
 
           // hold the light on
-          delay(relayRoutines[routine_idx].hold[ctr]);
+          delay(flashRoutines[routine_idx].flashRoutine[i].hold[j]);
 
           // turn everything off          
           digitalWrite(mhPin1, LOW);    // turn the LED off by making the voltage LOW
           digitalWrite(mhPin2, LOW);    // turn the LED off by making the voltage LOW
           digitalWrite(mhPin3, LOW);    // turn the LED off by making the voltage LOW
 
-          delay(relayRoutines[routine_idx].pauses[ctr]);
+          delay(flashRoutines[routine_idx].flashRoutine[i].pauses[j]);
 
-          ctr++;
-          
         }
       }
 
