@@ -18,7 +18,6 @@ int mhPin1 = 4;
 int mhPin2 = 5;
 int mhPin3 = 6;
 
-  int outputState = 0;
 
 struct flashRoutine_type{
   int repeat;     // max is 5
@@ -69,7 +68,6 @@ void setup() {
   digitalWrite(mhPin1, HIGH);   // turn the LED on (HIGH is the voltage level)
   digitalWrite(mhPin2, LOW);    // turn the LED off by making the voltage LOW
   digitalWrite(mhPin3, LOW);    // turn the LED off by making the voltage LOW
-  outputState = 1;
 
   // set up the defaults for anything that gets forgotten or doesn't need to be changed
   for(int i = 0; i < NUM_ROUTINES; i++) {
