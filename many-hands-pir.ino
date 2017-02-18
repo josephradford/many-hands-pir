@@ -178,56 +178,40 @@ void loop() {
 
 void setupRoutines()
 {
+  /////////
 flashRoutines[0].flash[0].port = 0;
-flashRoutines[0].flash[0].hold = 301;
-flashRoutines[0].flash[0].pause = 519;
+flashRoutines[0].flash[0].hold = 900;
+flashRoutines[0].flash[0].pause = 0;
 
 flashRoutines[0].flash[1].port = 1;
-flashRoutines[0].flash[1].hold = 337;
-flashRoutines[0].flash[1].pause = 439;
+flashRoutines[0].flash[1].hold = 900;
+flashRoutines[0].flash[1].pause = 0;
 
 flashRoutines[0].flash[2].port = 2;
-flashRoutines[0].flash[2].hold = 176;
-flashRoutines[0].flash[2].pause = 250;
-
-flashRoutines[0].flash[3].port = 2;
-flashRoutines[0].flash[3].hold = 194;
-flashRoutines[0].flash[3].pause = 223;
-
-flashRoutines[0].flash[4].port = 2;
-flashRoutines[0].flash[4].hold = 194;
-flashRoutines[0].flash[4].pause = 0;
+flashRoutines[0].flash[2].hold = 1700;
+flashRoutines[0].flash[2].pause = 0;
 
 
 /////
 flashRoutines[1].flash[0].port = 0;
-flashRoutines[1].flash[0].hold = 113;
-flashRoutines[1].flash[0].pause = 133;
+flashRoutines[1].flash[0].hold = 293;
+flashRoutines[1].flash[0].pause = 483;
 
-flashRoutines[1].flash[1].port = 0;
-flashRoutines[1].flash[1].hold = 105;
-flashRoutines[1].flash[1].pause = 133;
+flashRoutines[1].flash[1].port = 1;
+flashRoutines[1].flash[1].hold = 328;
+flashRoutines[1].flash[1].pause = 438;
 
-flashRoutines[1].flash[2].port = 0;
-flashRoutines[1].flash[2].hold = 122;
-flashRoutines[1].flash[2].pause = 277;
+flashRoutines[1].flash[2].port = 2;
+flashRoutines[1].flash[2].hold = 1054;
+flashRoutines[1].flash[2].pause = 635;
 
-flashRoutines[1].flash[3].port = 1;
-flashRoutines[1].flash[3].hold = 463;
-flashRoutines[1].flash[3].pause = 160;
+flashRoutines[1].flash[3].port = 2;
+flashRoutines[1].flash[3].hold = 131;
+flashRoutines[1].flash[3].pause = 0;
 
-flashRoutines[1].flash[4].port = 1;
-flashRoutines[1].flash[4].hold = 400;
-flashRoutines[1].flash[4].pause = 124;
 
-flashRoutines[1].flash[5].port = 1;
-flashRoutines[1].flash[5].hold = 355;
-flashRoutines[1].flash[5].pause = 402;
 
-flashRoutines[1].flash[6].port = 2;
-flashRoutines[1].flash[6].hold = 140;
-flashRoutines[1].flash[6].pause = 0;
-
+//////////
 flashRoutines[2].flash[0].port = 0;
 flashRoutines[2].flash[0].hold = 212;
 flashRoutines[2].flash[0].pause = 555;
@@ -251,6 +235,197 @@ flashRoutines[2].flash[4].pause = 294;
 flashRoutines[2].flash[5].port = 2;
 flashRoutines[2].flash[5].hold = 177;
 flashRoutines[2].flash[5].pause = 0;
+
+////////
+flashRoutines[3].flash[0].port = 0;
+flashRoutines[3].flash[0].hold = 149;
+flashRoutines[3].flash[0].pause = 186;
+
+flashRoutines[3].flash[1].port = 1;
+flashRoutines[3].flash[1].hold = 168;
+flashRoutines[3].flash[1].pause = 472;
+
+flashRoutines[3].flash[2].port = 0;
+flashRoutines[3].flash[2].hold = 96;
+flashRoutines[3].flash[2].pause = 79;
+
+flashRoutines[3].flash[3].port = 1;
+flashRoutines[3].flash[3].hold = 158;
+flashRoutines[3].flash[3].pause = 222;
+
+flashRoutines[3].flash[4].port = 0;
+flashRoutines[3].flash[4].hold = 140;
+flashRoutines[3].flash[4].pause = 134;
+
+flashRoutines[3].flash[5].port = 1;
+flashRoutines[3].flash[5].hold = 166;
+flashRoutines[3].flash[5].pause = 402;
+
+flashRoutines[3].flash[6].port = 0;
+flashRoutines[3].flash[6].hold = 86;
+flashRoutines[3].flash[6].pause = 80;
+
+flashRoutines[3].flash[7].port = 1;
+flashRoutines[3].flash[7].hold = 95;
+flashRoutines[3].flash[7].pause = 71;
+
+flashRoutines[3].flash[8].port = 2;
+flashRoutines[3].flash[8].hold = 1000;
+flashRoutines[3].flash[8].pause = 0;
+
+////
+flashRoutines[4].flash[0].port = 0;
+flashRoutines[4].flash[0].hold = 132;
+flashRoutines[4].flash[0].pause = 213;
+
+flashRoutines[4].flash[1].port = 0;
+flashRoutines[4].flash[1].hold = 132;
+flashRoutines[4].flash[1].pause = 518;
+
+flashRoutines[4].flash[2].port = 1;
+flashRoutines[4].flash[2].hold = 78;
+flashRoutines[4].flash[2].pause = 106;
+
+flashRoutines[4].flash[3].port = 2;
+flashRoutines[4].flash[3].hold = 132;
+flashRoutines[4].flash[3].pause = 0;
+
+//////
+flashRoutines[5].flash[0].port = 0;
+flashRoutines[5].flash[0].hold = 80;
+flashRoutines[5].flash[0].pause = 80;
+
+flashRoutines[5].flash[1].port = 1;
+flashRoutines[5].flash[1].hold = 80;
+flashRoutines[5].flash[1].pause = 80;
+
+flashRoutines[5].flash[2].port = 2;
+flashRoutines[5].flash[2].hold = 80;
+flashRoutines[5].flash[2].pause = 80;
+
+flashRoutines[5].flash[3].port = 0;
+flashRoutines[5].flash[3].hold = 80;
+flashRoutines[5].flash[3].pause = 80;
+
+flashRoutines[5].flash[4].port = 1;
+flashRoutines[5].flash[4].hold = 80;
+flashRoutines[5].flash[4].pause = 80;
+
+flashRoutines[5].flash[5].port = 2;
+flashRoutines[5].flash[5].hold = 70;
+flashRoutines[5].flash[5].pause = 200;
+
+flashRoutines[5].flash[6].port = 1;
+flashRoutines[5].flash[6].hold = 80;
+flashRoutines[5].flash[6].pause = 80;
+
+flashRoutines[5].flash[7].port = 2;
+flashRoutines[5].flash[7].hold = 80;
+flashRoutines[5].flash[7].pause = 0;
+
+
+
+//////
+flashRoutines[6].flash[0].port = 0;
+flashRoutines[6].flash[0].hold = 222;
+flashRoutines[6].flash[0].pause = 384;
+
+flashRoutines[6].flash[1].port = 1;
+flashRoutines[6].flash[1].hold = 212;
+flashRoutines[6].flash[1].pause = 385;
+
+flashRoutines[6].flash[2].port = 2;
+flashRoutines[6].flash[2].hold = 202;
+flashRoutines[6].flash[2].pause = 866;
+
+flashRoutines[6].flash[3].port = 0;
+flashRoutines[6].flash[3].hold = 168;
+flashRoutines[6].flash[3].pause = 402;
+
+flashRoutines[6].flash[4].port = 1;
+flashRoutines[6].flash[4].hold = 194;
+flashRoutines[6].flash[4].pause = 385;
+
+flashRoutines[6].flash[5].port = 2;
+flashRoutines[6].flash[5].hold = 194;
+flashRoutines[6].flash[5].pause = 446;
+
+flashRoutines[6].flash[6].port = 1;
+flashRoutines[6].flash[6].hold = 141;
+flashRoutines[6].flash[6].pause = 142;
+
+flashRoutines[6].flash[7].port = 2;
+flashRoutines[6].flash[7].hold = 167;
+flashRoutines[6].flash[7].pause = 0;
+
+////////////////
+flashRoutines[7].flash[0].port = 0;
+flashRoutines[7].flash[0].hold = 204;
+flashRoutines[7].flash[0].pause = 447;
+
+flashRoutines[7].flash[1].port = 1;
+flashRoutines[7].flash[1].hold = 239;
+flashRoutines[7].flash[1].pause = 430;
+
+flashRoutines[7].flash[2].port = 2;
+flashRoutines[7].flash[2].hold = 1539;
+flashRoutines[7].flash[2].pause = 1377;
+
+flashRoutines[7].flash[3].port = 0;
+flashRoutines[7].flash[3].hold = 61;
+flashRoutines[7].flash[3].pause = 0;
+
+flashRoutines[7].flash[4].port = 1;
+flashRoutines[7].flash[4].hold = 53;
+flashRoutines[7].flash[4].pause = 0;
+
+flashRoutines[7].flash[5].port = 2;
+flashRoutines[7].flash[5].hold = 48;
+flashRoutines[7].flash[5].pause = 0;
+
+
+  ///////// repeat
+flashRoutines[8].flash[0].port = 0;
+flashRoutines[8].flash[0].hold = 900;
+flashRoutines[8].flash[0].pause = 0;
+
+flashRoutines[8].flash[1].port = 1;
+flashRoutines[8].flash[1].hold = 900;
+flashRoutines[8].flash[1].pause = 0;
+
+flashRoutines[8].flash[2].port = 2;
+flashRoutines[8].flash[2].hold = 1700;
+flashRoutines[8].flash[2].pause = 0;
+
+///////
+flashRoutines[9].flash[0].port = 0;
+flashRoutines[9].flash[0].hold = 105;
+flashRoutines[9].flash[0].pause = 213;
+
+flashRoutines[9].flash[1].port = 0;
+flashRoutines[9].flash[1].hold = 131;
+flashRoutines[9].flash[1].pause = 268;
+
+flashRoutines[9].flash[2].port = 1;
+flashRoutines[9].flash[2].hold = 122;
+flashRoutines[9].flash[2].pause = 186;
+
+flashRoutines[9].flash[3].port = 1;
+flashRoutines[9].flash[3].hold = 123;
+flashRoutines[9].flash[3].pause = 697;
+
+flashRoutines[9].flash[4].port = 0;
+flashRoutines[9].flash[4].hold = 78;
+flashRoutines[9].flash[4].pause = 106;
+
+flashRoutines[9].flash[5].port = 1;
+flashRoutines[9].flash[5].hold = 78;
+flashRoutines[9].flash[5].pause = 366;
+
+flashRoutines[9].flash[6].port = 2;
+flashRoutines[9].flash[6].hold = 78;
+flashRoutines[9].flash[6].pause = 0;
+
 
 }
 
