@@ -18,22 +18,22 @@ int mhPin1 = 4;
 int mhPin2 = 5;
 int mhPin3 = 6;
 
+#define MAX_FLASHES 10
+#define TEST_ROUTINES 1
+#define START_ROUTINE_IDX 0
+#define NUM_ROUTINES 10
+
+struct flash_type{
+  int port;       // 0 is red, 1 is orange, 2 is yellow
+  int hold;       // time while activated
+  int pause;      // time after activating finished
+};
 
 struct flashRoutine_type{
-  int repeat;     // max is 5
-  int pauses[5];  // time after activating
-  int hold[5];    // time while activated
+  flash_type flash[MAX_FLASHES]; // max length of a routine
 };
 
-struct flashRoutines_type{
-  flashRoutine_type flashRoutine[3]; // for each relay
-};
-
-#define TEST_ROUTINES 1
-#define START_ROUTINE_IDX 1
-
-#define NUM_ROUTINES 10
-flashRoutines_type flashRoutines[NUM_ROUTINES];
+flashRoutine_type flashRoutines[NUM_ROUTINES];
 
 
 int curRoutineIdx; // for testing only
@@ -57,47 +57,32 @@ void setup() {
 
   // set up the defaults for anything that gets forgotten or doesn't need to be changed
   for(int i = 0; i < NUM_ROUTINES; i++) {
-    for (int j = 0; j < 3; j++) {
-      flashRoutines[i].flashRoutine[j].repeat = 1;
-      for (int k = 0; k < 5; k++) {
-        flashRoutines[i].flashRoutine[j].pauses[k] = 0;
-        flashRoutines[i].flashRoutine[j].hold[k] = 1000;
-      }
+    for (int j = 0; j < MAX_FLASHES; j++) {
+      flashRoutines[i].flash[j].port = 0;
+      flashRoutines[i].flash[j].pause = 0;
+      flashRoutines[i].flash[j].hold= 0;
+      
     }
   }
 
   // set up the varying routines we will perform
 
+  setupRoutines();
   // 0 is default
-
-  // 1 is double flash
-  flashRoutines[1].flashRoutine[2].repeat = 2;
-  flashRoutines[1].flashRoutine[2].pauses[0] = 100;
-  flashRoutines[1].flashRoutine[2].hold[0] = 400;
-  flashRoutines[1].flashRoutine[2].hold[1] = 400;
-
-  // 2
-  flashRoutines[2].flashRoutine[0].repeat    = 2;
-  flashRoutines[2].flashRoutine[0].hold[0]   = 800;
-  flashRoutines[2].flashRoutine[0].pauses[0] = 800;
-  flashRoutines[2].flashRoutine[0].hold[1]   = 800;
-  flashRoutines[2].flashRoutine[0].pauses[1] = 800;
-  flashRoutines[2].flashRoutine[1].repeat    = 1;
-  flashRoutines[2].flashRoutine[1].hold[0]   = 500;
-  flashRoutines[2].flashRoutine[1].pauses[0] = 2000;
-  flashRoutines[2].flashRoutine[2].repeat    = 4;
-  flashRoutines[2].flashRoutine[2].hold[0]   = 200;
-  flashRoutines[2].flashRoutine[2].pauses[0] = 800;
-  flashRoutines[2].flashRoutine[2].hold[1]   = 200;
-  flashRoutines[2].flashRoutine[2].pauses[1] = 2000;
-  flashRoutines[2].flashRoutine[2].hold[2]   = 200;
-  flashRoutines[2].flashRoutine[2].pauses[2] = 200;
-  flashRoutines[2].flashRoutine[2].hold[3]   = 200;
-  flashRoutines[2].flashRoutine[2].pauses[3] = 200;
+  flashRoutines[0].flash[0].port = 1;
+  flashRoutines[0].flash[0].hold = 320;
+  flashRoutines[0].flash[0].pause = 160;
+  
+  flashRoutines[0].flash[1].port = 2;
+  flashRoutines[0].flash[1].hold = 266;
+  flashRoutines[0].flash[1].pause = 223;
+  
 
   curRoutineIdx = START_ROUTINE_IDX;
 
   if (TEST_ROUTINES == 1) {
+    runRoutine(curRoutineIdx++);
+    delay(2000);
     runRoutine(curRoutineIdx++);
     delay(2000);
     runRoutine(curRoutineIdx++);
@@ -117,42 +102,43 @@ void setup() {
 
 void runRoutine(int routine_idx) {
 
-
-  for(int i = 0; i < 3; i++) {
-    for(int j = 0; j < flashRoutines[routine_idx].flashRoutine[i].repeat; j++) {
-
-      if (i == 0) {
-        Serial.print(millis()/1000);
+  for(int i = 0; i < MAX_FLASHES; i++) {
+    if (flashRoutines[routine_idx].flash[i].hold == 0) {
+      // skip
+    }
+    else {
+      if (flashRoutines[routine_idx].flash[i].port == 0) {
+        Serial.print(millis());
         Serial.println("turn on first relay"); 
         digitalWrite(mhPin1, HIGH);   // turn the LED on (HIGH is the voltage level)
         digitalWrite(mhPin2, LOW);    // turn the LED off by making the voltage LOW
         digitalWrite(mhPin3, LOW);    // turn the LED off by making the voltage LOW
       }
-      else if (i == 1) {
-        Serial.print(millis()/1000);
+      else if (flashRoutines[routine_idx].flash[i].port == 1) {
+        Serial.print(millis());
         Serial.println("turn on second relay"); 
         digitalWrite(mhPin2, HIGH);   // turn the LED on (HIGH is the voltage level)
         digitalWrite(mhPin1, LOW);    // turn the LED off by making the voltage LOW
         digitalWrite(mhPin3, LOW);    // turn the LED off by making the voltage LOW
       }
-      else if (i == 2) {
-        Serial.print(millis()/1000);
+      else {
+        Serial.print(millis());
         Serial.println("turn on third relay"); 
         digitalWrite(mhPin3, HIGH);   // turn the LED on (HIGH is the voltage level)
         digitalWrite(mhPin1, LOW);    // turn the LED off by making the voltage LOW
         digitalWrite(mhPin2, LOW);    // turn the LED off by making the voltage LOW 
       }
-
+  
       // hold the light on
-      delay(flashRoutines[routine_idx].flashRoutine[i].hold[j]);
-
-      // turn everything off          
+      delay(flashRoutines[routine_idx].flash[i].hold);
+  
+      // turn everything off    
+        Serial.println("turn everything off");       
       digitalWrite(mhPin1, LOW);    // turn the LED off by making the voltage LOW
       digitalWrite(mhPin2, LOW);    // turn the LED off by making the voltage LOW
       digitalWrite(mhPin3, LOW);    // turn the LED off by making the voltage LOW
-
-      delay(flashRoutines[routine_idx].flashRoutine[i].pauses[j]);
-
+  
+      delay(flashRoutines[routine_idx].flash[i].pause);
     }
   }
 }
@@ -209,7 +195,85 @@ void loop() {
       Serial.println(" sec");
       delay(50);
     }
-  }
-   
-  
+  }  
 }
+
+void setupRoutines()
+{
+flashRoutines[0].flash[0].port = 0;
+flashRoutines[0].flash[0].hold = 301;
+flashRoutines[0].flash[0].pause = 519;
+
+flashRoutines[0].flash[1].port = 1;
+flashRoutines[0].flash[1].hold = 337;
+flashRoutines[0].flash[1].pause = 439;
+
+flashRoutines[0].flash[2].port = 2;
+flashRoutines[0].flash[2].hold = 176;
+flashRoutines[0].flash[2].pause = 250;
+
+flashRoutines[0].flash[3].port = 2;
+flashRoutines[0].flash[3].hold = 194;
+flashRoutines[0].flash[3].pause = 223;
+
+flashRoutines[0].flash[4].port = 2;
+flashRoutines[0].flash[4].hold = 194;
+flashRoutines[0].flash[4].pause = 0;
+
+
+/////
+flashRoutines[1].flash[0].port = 0;
+flashRoutines[1].flash[0].hold = 113;
+flashRoutines[1].flash[0].pause = 133;
+
+flashRoutines[1].flash[1].port = 0;
+flashRoutines[1].flash[1].hold = 105;
+flashRoutines[1].flash[1].pause = 133;
+
+flashRoutines[1].flash[2].port = 0;
+flashRoutines[1].flash[2].hold = 122;
+flashRoutines[1].flash[2].pause = 277;
+
+flashRoutines[1].flash[3].port = 1;
+flashRoutines[1].flash[3].hold = 463;
+flashRoutines[1].flash[3].pause = 160;
+
+flashRoutines[1].flash[4].port = 1;
+flashRoutines[1].flash[4].hold = 400;
+flashRoutines[1].flash[4].pause = 124;
+
+flashRoutines[1].flash[5].port = 1;
+flashRoutines[1].flash[5].hold = 355;
+flashRoutines[1].flash[5].pause = 402;
+
+flashRoutines[1].flash[6].port = 2;
+flashRoutines[1].flash[6].hold = 140;
+flashRoutines[1].flash[6].pause = 0;
+
+flashRoutines[2].flash[0].port = 0;
+flashRoutines[2].flash[0].hold = 212;
+flashRoutines[2].flash[0].pause = 555;
+
+flashRoutines[2].flash[1].port = 1;
+flashRoutines[2].flash[1].hold = 203;
+flashRoutines[2].flash[1].pause = 1361;
+
+flashRoutines[2].flash[2].port = 0;
+flashRoutines[2].flash[2].hold = 140;
+flashRoutines[2].flash[2].pause = 98;
+
+flashRoutines[2].flash[3].port = 1;
+flashRoutines[2].flash[3].hold = 140;
+flashRoutines[2].flash[3].pause = 115;
+
+flashRoutines[2].flash[4].port = 2;
+flashRoutines[2].flash[4].hold = 168;
+flashRoutines[2].flash[4].pause = 294;
+
+flashRoutines[2].flash[5].port = 2;
+flashRoutines[2].flash[5].hold = 177;
+flashRoutines[2].flash[5].pause = 0;
+
+}
+
+
