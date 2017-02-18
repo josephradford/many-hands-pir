@@ -36,7 +36,6 @@ struct flashRoutine_type{
 flashRoutine_type flashRoutines[NUM_ROUTINES];
 
 
-int curRoutineIdx; // for testing only
 void setup() {
   // put your setup code here, to run once:
   pinMode(mhPin1, OUTPUT);
@@ -67,25 +66,13 @@ void setup() {
 
   // set up the varying routines we will perform
 
-  setupRoutines();
-  // 0 is default
-  flashRoutines[0].flash[0].port = 1;
-  flashRoutines[0].flash[0].hold = 320;
-  flashRoutines[0].flash[0].pause = 160;
-  
-  flashRoutines[0].flash[1].port = 2;
-  flashRoutines[0].flash[1].hold = 266;
-  flashRoutines[0].flash[1].pause = 223;
-  
-
-  curRoutineIdx = START_ROUTINE_IDX;
+  setupRoutines();  
 
   if (TEST_ROUTINES == 1) {
-    runRoutine(curRoutineIdx++);
-    delay(2000);
-    runRoutine(curRoutineIdx++);
-    delay(2000);
-    runRoutine(curRoutineIdx++);
+    for (int i = START_ROUTINE_IDX; i < NUM_ROUTINES; i++) {
+      runRoutine(i);
+      delay(2000);
+    }
   }
 
   
@@ -163,16 +150,7 @@ void loop() {
       // select one of the constructed routines
       int routine_idx = random(0,NUM_ROUTINES-1);
     
-      // when testing
-      routine_idx = curRoutineIdx;
-      curRoutineIdx++;
-      if (curRoutineIdx >= NUM_ROUTINES) {
-        curRoutineIdx = 0;
-      }
-
-      runRoutine(routine_idx);
-
-      
+      runRoutine(routine_idx);      
     }
     takeLowTime = true;
   }
