@@ -150,8 +150,12 @@ void loop() {
       // select one of the constructed routines
       int routine_idx = random(0,NUM_ROUTINES-1);
     
-      runRoutine(routine_idx);      
+      runRoutine(routine_idx);
+
+      delay(3000);
+      //delay(7000);
     }
+    
     takeLowTime = true;
   }
   
