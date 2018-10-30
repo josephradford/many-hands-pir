@@ -37,6 +37,6 @@ This will not get a full release.
 ## Authors
 * **Joseph Radford** - *Initial work*
 
-##Acknowledgements
+## Acknowledgements
 * [PIRSense](http://playground.arduino.cc/Code/PIRsense)
 * [The disclaimer](https://arduino-info.wikispaces.com/Electrical_Safety_and_Disclaimer)
